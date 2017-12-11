@@ -25,7 +25,7 @@ public class Instance {
         this.Ch = Ch;
         this.C0 = C0;
         this.k = k;
-        this.node = new ArrayList<Point>();
+        this.node = new ArrayList<>();
         node.forEach((p) -> {
             this.node.add(new Point(p.x, p.y));
         });

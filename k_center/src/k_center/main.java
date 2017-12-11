@@ -5,6 +5,8 @@
  */
 package k_center;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author raf
@@ -26,7 +28,15 @@ public class main {
         
         
         //resolution du probleme
-        //Solver.k_mean(instance);
+        ArrayList<SubGraph> list = Solver.k_mean(instance, 2);
+        for(SubGraph sg : list){
+            System.out.println(sg);
+        }
+        System.out.println("----------------------");
+        ArrayList<SubGraph> list2 = Solver.k_mean(instance, 10);
+        for(SubGraph sg : list2){
+            System.out.println(sg);
+        }
     }
     
 }
