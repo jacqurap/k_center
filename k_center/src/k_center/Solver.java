@@ -55,8 +55,33 @@ public class Solver {
     /**
      * merge les k groups en fonction de leurs proximite et du rapport entre le coup des hubs et des trajets
      */
-    public static void merge(){
-        //TODO
+    public static void merge(ArrayList<SubGraph> groups, Instance inst){
+        boolean stillMerging = true;
+        while(stillMerging && groups.size() >= 2){ //ensure that we still have at least 2 groups and that we didn't stop
+            
+            //research of the 2 nearest groups (using centers)
+            SubGraph sg1 = null, sg2 = null;
+            double currentMinDistance = Double.MAX_VALUE;
+            for(int i=0; i<groups.size()-1; i++){
+                for(int j=i+1; j<groups.size(); j++){
+                    if(groups.get(i).getCenter().distance(groups.get(j).getCenter()) < currentMinDistance){
+                        sg1 = groups.get(i);
+                        sg2 = groups.get(j);
+                        currentMinDistance = groups.get(i).getCenter().distance(groups.get(j).getCenter());
+                    }
+                }
+            }
+            
+            //TODO using only centers is probably very bad, so we should look for the closest nodes from diferents groups
+            //we could then switch between one and the other to have defferent efficiencies
+            
+            
+            if(sg1.getCenter().distance(sg2.getCenter())*inst.C0 < inst.Ch){ //if those groups a close enough, we merge them
+                sg1.add(sg2);
+                groups.remove(sg2);
+            }
+            else stillMerging = false; //else we won't found any close enough groups, so we can stop
+        }
     }
     
     /**

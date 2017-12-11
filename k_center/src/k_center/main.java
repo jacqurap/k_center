@@ -26,17 +26,20 @@ public class main {
         Instance instance = generator.newInstance();
         System.out.println(instance);
         
+        System.out.println("----------------------");
         
         //resolution du probleme
-        ArrayList<SubGraph> list = Solver.k_mean(instance, 2);
+        ArrayList<SubGraph> list = Solver.k_mean(instance, 4);
         for(SubGraph sg : list){
             System.out.println(sg);
         }
         System.out.println("----------------------");
-        ArrayList<SubGraph> list2 = Solver.k_mean(instance, 10);
-        for(SubGraph sg : list2){
+        
+        Solver.merge(list, instance);
+        for(SubGraph sg : list){
             System.out.println(sg);
         }
+        System.out.println("there is still " + list.size() + " groups");
     }
     
 }

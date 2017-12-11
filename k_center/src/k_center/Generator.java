@@ -31,8 +31,8 @@ public class Generator {
         
         Instance inst = new Instance();
         inst.C0 = 1;
-        inst.Ch = 10;
-        inst.k = 4;
+        inst.Ch = 25;
+        inst.k = 10;
         inst.node = new ArrayList<Point>();
         for (int i = 0; i<100; i++){
             inst.node.add(new Point(rand.nextInt(100),rand.nextInt(100)));

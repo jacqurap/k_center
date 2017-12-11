@@ -34,6 +34,13 @@ public class SubGraph {
         node.add(new Point(p.x, p.y));
     }
 
+    void add(SubGraph sg) {
+        for(Point p : sg.node){
+            this.node.add(new Point(p.x, p.y));
+        }
+        this.updateCenter();
+    }
+    
     void updateCenter() {
         double xTot = 0, yTot = 0;
         for(Point p : node){
