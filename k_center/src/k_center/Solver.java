@@ -35,7 +35,7 @@ public class Solver {
     public static double solve(Instance inst, int k_min, int k_mean_depth, int k_mean_shuffle, int tsp_shuffle) {
 
         double cost = Double.MAX_VALUE;
-        for (int i = inst.k; i >= k_min; i = i) {
+        for (int i = inst.k; i >= k_min; i--) {
             inst.k = i;
             for (int j = 0; j < k_mean_shuffle; j++) {
                 Collections.shuffle(inst.node);
