@@ -61,4 +61,13 @@ public class SubGraph {
         }
         return s;
     }
+    
+    public SubGraph clone(){
+        SubGraph copy = new SubGraph();
+        copy.center = this.center;
+        for(Point p : this.node){
+            copy.node.add(p);
+        }
+        return copy;
+    }
 }

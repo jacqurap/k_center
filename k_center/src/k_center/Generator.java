@@ -31,11 +31,11 @@ public class Generator {
         
         Instance inst = new Instance();
         inst.C0 = 1;
-        inst.Ch = 25;
-        inst.k = 10;
+        inst.Ch = 1000;
+        inst.k = 100;
         inst.node = new ArrayList<Point>();
-        for (int i = 0; i<100; i++){
-            inst.node.add(new Point(rand.nextInt(100),rand.nextInt(100)));
+        for (int i = 0; i<10000; i++){
+            inst.node.add(new Point(rand.nextInt(10000),rand.nextInt(10000)));
         }
         return inst;
     }

@@ -13,33 +13,25 @@ import java.util.ArrayList;
  */
 public class main {
 
-    public final static boolean DISPLAY = true; //mettre des if(DISPLAY) a tous les affichage, cela permettra de tous les supprimer pour les tests de performance
-    
+    public final static boolean DISPLAY = false; //mettre des if(DISPLAY) a tous les affichage, cela permettra de tous les supprimer pour les tests de performance
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        
+
         //creation de l'instance de test
         Generator generator = new Generator();
         Instance instance = generator.newInstance();
-        System.out.println(instance);
-        
-        System.out.println("----------------------");
-        
+        if (DISPLAY) {
+            System.out.println(instance);
+            System.out.println("----------------------");
+        }
         //resolution du probleme
-        ArrayList<SubGraph> list = Solver.k_mean(instance, 4);
-        for(SubGraph sg : list){
-            System.out.println(sg);
-        }
-        System.out.println("----------------------");
-        
-        Solver.merge(list, instance);
-        for(SubGraph sg : list){
-            System.out.println(sg);
-        }
-        System.out.println("there is still " + list.size() + " groups");
+        //solve(instance, the minimum number of hub to try, depth of the k_mean, number of retry k-mean, number of retry tsp)
+        double cost = Solver.solve(instance, 1, 10, 10, 10);
+
+        System.out.println(cost);
     }
-    
+
 }
