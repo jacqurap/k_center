@@ -35,11 +35,12 @@ public class Solver {
     public static double solve(Instance inst, int k_min, int k_mean_depth, int k_mean_shuffle, int tsp_shuffle) {
 
         double cost = Double.MAX_VALUE;
+        //System.out.println("inst.k = " + inst.k + "\t k_min = " + k_min);
         for (int i = inst.k; i >= k_min; i--) {
             inst.k = i;
             for (int j = 0; j < k_mean_shuffle; j++) {
                 Collections.shuffle(inst.node);
-                ArrayList<SubGraph> list = k_mean(inst, 4);
+                ArrayList<SubGraph> list = k_mean(inst, k_mean_depth);
                 if (main.DISPLAY) {
                     for (SubGraph sg : list) {
                         System.out.println(sg);
@@ -47,13 +48,13 @@ public class Solver {
                     System.out.println("----------------------");
                 }
 
-                //merge(list, inst);
+                /*merge(list, inst);
                 if (main.DISPLAY) {
                     for (SubGraph sg : list) {
                         System.out.println(sg);
                     }
                     System.out.println("there is still " + list.size() + " groups");
-                }
+                }*/
                 for (int k = 0; k < tsp_shuffle; k++) {
                     double dist = tsp(list);
                     double currentCost = dist * inst.C0 + list.size() * inst.Ch;
@@ -61,6 +62,9 @@ public class Solver {
                         System.out.println("k = " + inst.k + " \t, cost = " + currentCost);
                     }
                     cost = Double.min(cost, currentCost);
+                    if (main.DISPLAY_SOLUCE){
+                        System.out.println("k_min = " + i + " \t cost = " + currentCost);
+                    }
                 }
             }
         }
@@ -151,23 +155,26 @@ public class Solver {
             myGroups.add(s.clone());
         }
         for (SubGraph s : myGroups) { //foreach subgraph
-            Random rand = new Random();
-            int r = rand.nextInt(s.node.size());
-            Point firstPoint = s.node.get(r);
-            s.node.remove(r);
-            Point currentClosestPoint = firstPoint;
-            while (!s.node.isEmpty()) {
-                double currentMinDistance = Double.MAX_VALUE;
-                for (Point p : s.node) { //select the nearest neighbour
-                    if (currentClosestPoint.distance(p) < currentMinDistance) {
-                        currentMinDistance = currentClosestPoint.distance(p);
-                        currentClosestPoint = p;
+            if(s.node.size() > 0){
+                Random rand = new Random();
+                //System.out.println("DEBUG ___ s.node.size() = " + s.node.size());
+                int r = rand.nextInt(s.node.size());
+                Point firstPoint = s.node.get(r);
+                s.node.remove(r);
+                Point currentClosestPoint = firstPoint;
+                while (!s.node.isEmpty()) {
+                    double currentMinDistance = Double.MAX_VALUE;
+                    for (Point p : s.node) { //select the nearest neighbour
+                        if (currentClosestPoint.distance(p) < currentMinDistance) {
+                            currentMinDistance = currentClosestPoint.distance(p);
+                            currentClosestPoint = p;
+                        }
                     }
+                    dtot += currentMinDistance;
+                    s.node.remove(currentClosestPoint);
                 }
-                dtot += currentMinDistance;
-                s.node.remove(currentClosestPoint);
+                dtot += firstPoint.distance(currentClosestPoint); //add the cost to return to the hub (0 if the hub is alone in this group)
             }
-            dtot += firstPoint.distance(currentClosestPoint); //add the cost to return to the hub (0 if the hub is alone in this group)
         }
         return dtot;
     }

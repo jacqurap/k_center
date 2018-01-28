@@ -27,15 +27,29 @@ public class Generator {
     }
     
     public Instance newInstance(){
-        
-        
+        return newInstance(100, 10, 1, 100, 5);
+    }
+    
+    public Instance newInstance(int n, int k, int C0, int Ch, int nbGroups){
+        if(n<nbGroups)
+            return null;
         Instance inst = new Instance();
-        inst.C0 = 1;
-        inst.Ch = 1000;
-        inst.k = 100;
+        inst.C0 = C0;
+        inst.Ch = Ch;
+        inst.k = k;
         inst.node = new ArrayList<Point>();
-        for (int i = 0; i<10000; i++){
-            inst.node.add(new Point(rand.nextInt(10000),rand.nextInt(10000)));
+        int citiesSize = 1000/nbGroups -1;
+        
+        for (int i = 0; i<nbGroups; i++){
+            inst.node.add(new Point(rand.nextInt(1000-citiesSize)+citiesSize/2,rand.nextInt(1000-citiesSize)+citiesSize/2));
+        }
+        if(main.DISPLAY_INSTANCE){
+            System.out.println(inst);
+            System.out.println("-----------------------------");
+        }
+        for (int i = nbGroups; i<n; i++){
+            Point group = inst.node.get(rand.nextInt(nbGroups));
+            inst.node.add(new Point((group.x + rand.nextInt(citiesSize) - citiesSize/2),group.y + rand.nextInt(citiesSize) - citiesSize/2));
         }
         return inst;
     }
